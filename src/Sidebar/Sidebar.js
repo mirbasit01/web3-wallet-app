@@ -196,6 +196,8 @@ import useAuth from "hook/useAuth";
 import { toast } from "react-toastify";
 import useWeb3 from 'hook/useWeb3';
 import './WalletSidebar.css';
+import Tokensendtransfer from "components/SendToken/Tokensendtransfer";
+import TokenBalance from "components/Balance/TokenBalance";
 
 function Sidebar(props) {
   const history = useHistory();
@@ -316,7 +318,7 @@ function Sidebar(props) {
       <div className="wallet-sidebar">
         <div className="wallet-header">
           <h2 className="wallet-title text-glow">
-            🚀 Web3 Wallet
+           Web3 Wallet
           </h2>
           
           {account && (
@@ -380,6 +382,17 @@ function Sidebar(props) {
           </div>
         )}
       </div>
+
+
+      <div className='writecontract'>
+       
+
+      </div>
+ <TokenBalance/>
+
+ <Tokensendtransfer/>
+
+
 
       {/* Enhanced Modal */}
       <Modal 
