@@ -1,0 +1,417 @@
+/* WalletSidebar.css */
+
+/* Main Wallet Sidebar Container */
+.wallet-sidebar {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+  color: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Section */
+.wallet-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.wallet-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00d4ff;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+/* Connection Status Badge */
+.connection-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #00ff88;
+  margin-bottom: 1rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
+/* Button Styles */
+.btn-connect, .btn-wallet-primary {
+  background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%) !important;
+  border: none !important;
+  padding: 14px 28px;
+  border-radius: 12px;
+  color: white !important;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.btn-connect::before, .btn-wallet-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s;
+}
+
+.btn-connect:hover::before, .btn-wallet-primary:hover::before {
+  left: 100%;
+}
+
+.btn-connect:hover, .btn-wallet-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(0, 212, 255, 0.4) !important;
+  color: white !important;
+}
+
+.btn-disconnect, .btn-wallet-danger {
+  background: linear-gradient(135deg, #ff4757 0%, #c44569 100%) !important;
+  border: none !important;
+  padding: 14px 28px;
+  border-radius: 12px;
+  color: white !important;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(255, 71, 87, 0.3);
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.btn-disconnect:hover, .btn-wallet-danger:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(255, 71, 87, 0.4) !important;
+  color: white !important;
+}
+
+/* Wallet Info Section */
+.wallet-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.info-label {
+  font-size: 0.9rem;
+  color: #8892b0;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: #00d4ff;
+  font-weight: 600;
+  word-break: break-all;
+  max-width: 60%;
+  text-align: right;
+}
+
+.balance-highlight {
+  color: #00ff88 !important;
+  font-size: 1.1rem;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.truncate-address {
+  font-family: 'Courier New', monospace;
+}
+
+/* Modal Styles */
+.wallet-connect-modal .modal-content {
+  background: linear-gradient(135deg, #1a1a3e 0%, #2d2d5f 100%);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.wallet-connect-modal .modal-header {
+  background: rgba(0, 212, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 20px 20px 0 0;
+}
+
+.wallet-connect-modal .modal-title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.wallet-connect-modal .btn-close {
+  filter: invert(1);
+}
+
+/* Wallet Options */
+.wallet-options {
+  padding: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.wallet-option {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.wallet-option:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00d4ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.wallet-icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 1rem;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.wallet-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+}
+
+.wallet-description {
+  font-size: 0.9rem;
+  color: #8892b0;
+  margin: 0;
+  margin-top: 0.25rem;
+}
+
+/* Loading States */
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid transparent;
+  border-top: 2px solid #00d4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.wallet-option .loading-spinner {
+  width: 48px;
+  height: 48px;
+  border-width: 3px;
+  margin-right: 1rem;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); 
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); 
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); 
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wallet-sidebar {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .wallet-title {
+    font-size: 1.25rem;
+  }
+  
+  .btn-connect, .btn-disconnect, 
+  .btn-wallet-primary, .btn-wallet-danger {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+  
+  .wallet-options {
+    padding: 1.5rem;
+  }
+  
+  .wallet-option {
+    padding: 1rem;
+  }
+  
+  .wallet-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .wallet-name {
+    font-size: 1rem;
+  }
+  
+  .info-value {
+    font-size: 0.85rem;
+    max-width: 50%;
+  }
+}
+
+/* Dark theme compatibility */
+.dark .wallet-sidebar {
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+}
+
+/* Bootstrap modal override */
+.modal.wallet-connect-modal .modal-backdrop {
+  backdrop-filter: blur(8px);
+}
+
+/* Material-UI compatibility */
+.MuiDialog-paper.wallet-dialog {
+  background: linear-gradient(135deg, #1a1a3e 0%, #2d2d5f 100%);
+  border-radius: 20px;
+  color: #ffffff;
+}
+
+/* Success/Error states */
+.wallet-success {
+  border-left: 4px solid #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.wallet-error {
+  border-left: 4px solid #ff4757;
+  background: rgba(255, 71, 87, 0.1);
+}
+
+/* Utility classes */
+.text-glow {
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.bg-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+/* Add this to your main CSS file or WalletSidebar.css */
+
+/* OPTION 1: Hide all toast icons */
+.Toastify__toast-icon {
+  display: none !important;
+}
+
+/* OPTION 2: Hide only success toast icons */
+.Toastify__toast--success .Toastify__toast-icon {
+  display: none !important;
+}
+
+/* OPTION 3: Hide the entire success toast notification */
+.Toastify__toast--success {
+  display: none !important;
+}
+
+/* OPTION 4: Custom toast styling without icons */
+.Toastify__toast {
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: white;
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+  color: white;
+}
+
+.Toastify__close-button {
+  color: white;
+  opacity: 0.8;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}
