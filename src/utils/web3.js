@@ -12,12 +12,14 @@ import getRpcUrl from "./getRpcUrl";
 const getWeb3NoAccount = () => {
   return web3NoAccount;
 };
+const INFURA_API_KEY = "4eec8c85be644684bf8717dc31ed465e"
 
 // const getNodeUrl = () => {
 //   const randomIndex = random(0, nodes.length - 1);
 //   return nodes[randomIndex];
 // };
-const RPC_URL = getRpcUrl() || "https://default-rpc-url.com";
+// getRpcUrl() || "https://default-rpc-url.com";
+const RPC_URL = (`https://sepolia.infura.io/v3/${INFURA_API_KEY}`)
 const httpProvider = new Web3.providers.HttpProvider(RPC_URL, {
   timeout: 10000,
 });

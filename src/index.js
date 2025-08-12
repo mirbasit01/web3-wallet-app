@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { Web3ReactProvider } from "@web3-react/core";
+//  import "./app.scss";
 
 import {hooks as walletConnectV2Hooks, walletConnectV2,} from "./connectors/walletConnectV2.js";
 import { hooks as metaMaskHooks, metaMask } from "./connectors/metaMask";

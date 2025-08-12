@@ -85,6 +85,7 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "sass": "^1.65.1",
+    "scss": "^0.2.4",
     "slick-carousel": "^1.8.1",
     "snarkjs": "^0.6.11",
     "socket.io-client": "^4.6.1",
