@@ -69,7 +69,7 @@ A modern, responsive Web3 wallet application built with React.js that allows use
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/web3-wallet-app.git
+https://github.com/mirbasit01/web3-wallet-app.git
 cd web3-wallet-app
 ```
 
