@@ -199,8 +199,8 @@ const TokenSendTransfer = () => {
         </div>
 
         {/* Amount Input */}
-        <div className="input-group">
-          <label className="input-label">
+        <div className="">
+          <label className="">
             💵 Amount
           </label>
           <div className="amount-input-container">
