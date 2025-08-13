@@ -199,7 +199,7 @@ import './WalletSidebar.css';
 import Tokensendtransfer from "components/SendToken/Tokensendtransfer";
 import TokenBalance from "components/Balance/TokenBalance";
 
-function Sidebar(props) {
+function WalletConnect() {
   const history = useHistory();
   const sidebar = useRef(null); 
   const [show, setShow] = useState(false); 
@@ -368,8 +368,8 @@ function Sidebar(props) {
             <div className="info-item">
               <span className="info-label">📍 Address</span>
               <span className="info-value truncate-address">
-                {/* {formatAddress(account)} */}
-                {account}
+                {formatAddress(account)}
+                {/* {account} */}
               </span>
             </div>
             
@@ -495,4 +495,4 @@ function Sidebar(props) {
   );
 }
 
-export default Sidebar;
+export default WalletConnect;

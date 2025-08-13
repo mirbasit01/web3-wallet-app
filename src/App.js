@@ -1,8 +1,8 @@
 import React from 'react'
-import Sidebar from 'Sidebar/Sidebar'
-// import "./app.scss";
+ // import "./app.scss";
 import { ToastContainer } from "react-toastify";
-
+import WalletConnect from 'wallet/WalletConnect';
+ 
 const App = () => {
   return (
     
@@ -13,8 +13,8 @@ const App = () => {
         theme="light"
         position="top-right"
       />
-    <Sidebar/>
-    </>
+      <WalletConnect/>
+     </>
   )
 }
 
