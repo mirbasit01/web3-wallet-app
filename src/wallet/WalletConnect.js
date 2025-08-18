@@ -219,7 +219,7 @@ function WalletConnect() {
     closeButton: true,
     autoClose: 3000,
     position: "top-right"
-  };
+  }; 
 
   const connectMetaMask1 = async () => {
     if (account) {

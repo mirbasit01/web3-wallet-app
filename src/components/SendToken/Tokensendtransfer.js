@@ -73,6 +73,7 @@
 import React, { useState } from 'react';
 import useTokensend from 'hook/useTokensend';
 import './TokenComponents.css'; // Import the CSS file
+import { toast } from 'react-toastify';
 
 const TokenSendTransfer = () => {
   const [amountuser, setAmountuser] = useState("");
@@ -102,19 +103,20 @@ const TokenSendTransfer = () => {
     setAddressError("");
     setError("");
     setSuccess("");
-    
+
     if (value && !isValidAddress(value)) {
       setAddressError("Please enter a valid Ethereum address");
     }
   };
 
+ 
   const handleAmountChange = (e) => {
     const value = e.target.value;
     setAmountuser(value);
     setAmountError("");
     setError("");
     setSuccess("");
-    
+
     if (value && !isValidAmount(value)) {
       setAmountError("Please enter a valid amount");
     }
@@ -132,7 +134,7 @@ const TokenSendTransfer = () => {
       setAddressError("Recipient address is required");
       return;
     }
-    
+
     if (!amountuser.trim()) {
       setAmountError("Amount is required");
       return;
@@ -152,19 +154,19 @@ const TokenSendTransfer = () => {
       setLoading(true);
       const result = await handleSendToken(toAddress, amountuser);
       console.log('Transaction result:', result);
-      
+
       setSuccess(`🎉 Transaction sent successfully! Hash: ${result?.hash || 'N/A'}`);
-      
+
       // Clear form after successful transaction
       setTimeout(() => {
         setToAddress("");
         setAmountuser("");
         setSuccess("");
       }, 5000);
-      
+
     } catch (error) {
       console.error('Transaction error:', error);
-      setError(`❌ Transaction failed: ${error.message || 'Unknown error'}`);
+      setError(`Transaction failed: ${error.message || 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -253,9 +255,9 @@ const TokenSendTransfer = () => {
         )}
 
         {/* Transaction Info */}
-        <div style={{ 
-          marginTop: '1.5rem', 
-          padding: '1rem', 
+        <div style={{
+          marginTop: '1.5rem',
+          padding: '1rem',
           background: 'rgba(255, 255, 255, 0.03)',
           borderRadius: '8px',
           fontSize: '0.85rem',

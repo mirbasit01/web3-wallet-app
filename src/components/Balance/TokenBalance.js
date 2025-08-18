@@ -3,7 +3,7 @@
 //  import { contractABI } from "utils/contract/contractABI";
 // import { contractAddress } from "utils/contract/contractAddress";
 // import { useWeb3React } from "@web3-react/core";
- 
+
 // export default function TokenBalance() {
 //   const [address, setAddress] = useState(null);
 //   const [isConnected, setIsConnected] = useState(false);
@@ -12,7 +12,7 @@
 //   const [loading, setLoading] = useState(false);
 //   const [error, setError] = useState(null);
 //     let { account } = useWeb3React();
-  
+
 
 // //   useEffect(() => {
 // //     // Check wallet connection
@@ -104,7 +104,7 @@ export default function TokenBalance() {
       setError(null);
       const web3 = new Web3(window.ethereum);
       const contract = new web3.eth.Contract(contractABI, contractAddress);
-      
+
       // Fetch balance, decimals, symbol in parallel
       const [rawBalance, decimals, tokenSymbol] = await Promise.all([
         contract.methods.balanceOf(account).call(),
@@ -143,14 +143,14 @@ export default function TokenBalance() {
           <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⚠️</div>
           {error}
           <br />
-          <button 
-            onClick={fetchBalance} 
-            style={{ 
-              marginTop: '1rem', 
-              padding: '0.5rem 1rem', 
-              background: 'transparent', 
-              border: '1px solid #ff4757', 
-              color: '#ff4757', 
+          <button
+            onClick={fetchBalance}
+            style={{
+              marginTop: '1rem',
+              padding: '0.5rem 1rem',
+              background: 'transparent',
+              border: '1px solid #ff4757',
+              color: '#ff4757',
               borderRadius: '8px',
               cursor: 'pointer'
             }}
@@ -182,7 +182,7 @@ export default function TokenBalance() {
         </h2>
         <div className="token-balance-icon">💎</div>
       </div>
-      
+
       <div className="balance-display bg-glass">
         <div className="balance-amount balance-glow">
           {balance ? Number(balance).toFixed(6) : '0.000000'}
@@ -190,9 +190,9 @@ export default function TokenBalance() {
         <div className="balance-symbol">
           {symbol || 'TOKEN'}
         </div>
-        
+
         {/* Refresh button */}
-        <button 
+        <button
           onClick={fetchBalance}
           style={{
             marginTop: '1rem',
@@ -218,9 +218,9 @@ export default function TokenBalance() {
       </div>
 
       {/* Account info */}
-      <div style={{ 
-        marginTop: '1rem', 
-        padding: '1rem', 
+      <div style={{
+        marginTop: '1rem',
+        padding: '1rem',
         background: 'rgba(255, 255, 255, 0.03)',
         borderRadius: '8px',
         fontSize: '0.8rem',
