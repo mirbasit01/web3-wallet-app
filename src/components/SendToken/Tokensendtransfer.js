@@ -675,7 +675,7 @@ const TokenSendTransfer = () => {
           </div>
 
           {/* Image Upload */}
-          <div className="input-group">
+          <div className="">
             <label className="input-label">
               Token Image *
             </label>
@@ -765,7 +765,7 @@ const TokenSendTransfer = () => {
           </div>
 
           {/* Amount Input */}
-          <div className="input-group">
+          <div className="">
             <label className="input-label">
               Amount *
             </label>
