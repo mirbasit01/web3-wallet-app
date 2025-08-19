@@ -109,7 +109,7 @@ const TokenSendTransfer = () => {
     }
   };
 
- 
+
   const handleAmountChange = (e) => {
     const value = e.target.value;
     setAmountuser(value);
@@ -155,7 +155,7 @@ const TokenSendTransfer = () => {
       const result = await handleSendToken(toAddress, amountuser);
       console.log('Transaction result:', result);
 
-      setSuccess(`🎉 Transaction sent successfully! Hash: ${result?.hash || 'N/A'}`);
+      setSuccess(`Transaction sent successfully! Hash: ${result?.hash || 'N/A'}`);
 
       // Clear form after successful transaction
       setTimeout(() => {
@@ -187,7 +187,7 @@ const TokenSendTransfer = () => {
         {/* Recipient Address Input */}
         <div className="input-group">
           <label className="input-label">
-            📍 Recipient Address
+             Recipient Address
           </label>
           <input
             type="text"
@@ -203,7 +203,7 @@ const TokenSendTransfer = () => {
         {/* Amount Input */}
         <div className="">
           <label className="">
-            💵 Amount
+             Amount
           </label>
           <div className="amount-input-container">
             <input
@@ -235,7 +235,7 @@ const TokenSendTransfer = () => {
             </>
           ) : (
             <>
-              ⚡ Send Tokens Now
+             Send Tokens Now
             </>
           )}
         </button>

@@ -3,25 +3,64 @@
 import { toast } from "react-toastify";
 import { connectorsByName } from "../utils/web3React";
 import { setupNetwork } from "../utils/wallet";
+import Web3 from "web3";
 
 const useAuth = () => {
   
-  const login = async (connectorId) => {
-    const connector = connectorsByName[connectorId];
-    const chainId = process.env.REACpenvT_APP_CHAIN_ID;
-    if (connector) {
-      try {
-        await connector.activate(chainId);
-        window.localStorage.setItem("connectorId", connectorId);
-        console.log("Connected successfully");
-      } catch (error) {
-        console.error("Connection failed", error);
-      }
-    } else {
-      console.error("Invalid connector ID");
-    }
-  };
+  // const login = async (connectorId) => {
+  //   const connector = connectorsByName[connectorId];
+  //   const chainId = process.env.REACpenvT_APP_CHAIN_ID;
+  //   if (connector) {
+  //     try {
+  //       await connector.activate(chainId);
+  //       window.localStorage.setItem("connectorId", connectorId);
+  //       console.log("Connected successfully");
+  //     } catch (error) {
+  //       console.error("Connection failed", error);
+  //     }
+  //   } else {
+  //     console.error("Invalid connector ID");
+  //   }
+  // };
+const login = async (connectorId) => {
+  const connector = connectorsByName[connectorId];
+  const chainId = process.env.REACT_APP_CHAIN_ID;
 
+  if (connector) {
+    try {
+      await connector.activate(chainId);
+      window.localStorage.setItem("connectorId", connectorId);
+      console.log("Connected successfully");
+
+      // Wrap connector.provider with Web3
+      const web3 = new Web3(connector.provider);
+
+      // Get accounts
+      const accounts = await web3.eth.getAccounts();
+      if (accounts.length > 0) {
+        console.log("Connected Account:", accounts[0]);
+      } else {
+        console.warn("No accounts found");
+      }
+
+      // Example: Get current chain ID
+      const currentChainId = await web3.eth.getChainId();
+      console.log("Connected Chain ID:", currentChainId);
+
+      // Example: Sign a message (web3 alternative to "signer")
+      const message = "Hello from web3!";
+      const signature = await web3.eth.personal.sign(message, accounts[0], "");
+      console.log("Signature:", signature);
+      window.localStorage.setItem("Signature", signature);
+
+
+    } catch (error) {
+      console.error("Connection failed", error);
+    }
+  } else {
+    console.error("Invalid connector ID");
+  }
+};
   // const logout = async () => {
   //   const connectorID = window.localStorage.getItem("connectorId");
   //   const connector = connectorsByName[connectorID];
