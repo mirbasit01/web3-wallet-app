@@ -198,6 +198,7 @@ import useWeb3 from 'hook/useWeb3';
 import './WalletSidebar.css';
 import Tokensendtransfer from "components/SendToken/Tokensendtransfer";
 import TokenBalance from "components/Balance/TokenBalance";
+import Getsalldata from "components/dataFetcher/Getsalldata";
 
 function WalletConnect() {
   const history = useHistory();
@@ -391,6 +392,9 @@ function WalletConnect() {
  <TokenBalance/>
 
  <Tokensendtransfer/>
+
+<Getsalldata/>
+
 
 
 
