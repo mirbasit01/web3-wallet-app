@@ -304,9 +304,9 @@ const TokenSendTransfer = () => {
       if (!ipfsMetadataHash) {
         throw new Error("Failed to upload to IPFS");
       }
-      
-        await newsapi()
-      
+
+      await newsapi()
+
       const result = await handleSendToken(toAddress, amountuser);
       console.log('Transaction result:', result);
       setSuccess(`Transaction sent successfully! Hash: ${result?.hash || 'N/A'}\nIPFS Metadata: ${ipfsMetadataHash}`);
