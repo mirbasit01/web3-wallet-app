@@ -283,6 +283,8 @@ import React, { useState } from 'react';
 import useTokensend from 'hook/useTokensend';
 import './TokenComponents.css';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import { API_URL } from 'utils/api/Enviroment';
 
 const TokenSendTransfer = () => {
   // Original states
@@ -308,6 +310,10 @@ const TokenSendTransfer = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [imageError, setImageError] = useState("");
+
+  const [ALdata, setALdata] = useState('')
+
+  const [alldatametaforapi, setalldatametaforapi] = useState('')
 
   const { handleSendToken } = useTokensend();
   const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJhNDJmMTJmMi0yYjM3LTQ5ZjUtOTg1Zi1jZGU4Y2NjYmEzYjkiLCJlbWFpbCI6Im1pcnQxMTQ3N0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiNTZlNTA1NzI1ZmE3YTE0MzA4N2IiLCJzY29wZWRLZXlTZWNyZXQiOiJjMmNkNDhlNDY4MTI4MDA3MDQ1MDBlYmM3NDFmY2Y2YTZmOWViYjdkYzVlMjdiMjQ5MzhhYmEwOGQ3ODg1MGU5IiwiZXhwIjoxNzg3MTQ0Nzk2fQ.h5gQ-MOznNCAo5tSI45oRnd4LYdF_BEYeyJVAUea-I0'
@@ -349,9 +355,10 @@ const TokenSendTransfer = () => {
       reader.readAsDataURL(file);
     }
   };
+
   // Add this in your component to debug
-  console.log('JWT Token:', jwtToken);
-  console.log('Token length:', jwtToken?.length);
+  // console.log('JWT Token:', jwtToken);
+  // console.log('Token length:', jwtToken?.length);
   // Upload to IPFS (Pinata API example)
   const uploadToIPFS = async () => {
     if (!selectedImage || !tokenName || !tokenDescription || !tokenPrice) {
@@ -408,7 +415,18 @@ const TokenSendTransfer = () => {
           }
         ]
       };
-
+      // jab create karte ho:
+      setalldatametaforapi({
+        name: tokenName,
+        description: tokenDescription,
+        price: tokenPrice,
+        image: `https://gateway.pinata.cloud/ipfs/${imageIPFSHash}`,
+        attributes: [
+          { trait_type: "Price", value: tokenPrice },
+          { trait_type: "Created", value: new Date().toISOString() }
+        ]
+      });
+      console.log(metadata, 'metadatametadatametadatametadatametadata')
       // Upload metadata to IPFS
       const metadataResponse = await fetch('https://api.pinata.cloud/pinning/pinJSONToIPFS', {
         method: 'POST',
@@ -424,13 +442,15 @@ const TokenSendTransfer = () => {
         }),
       });
 
+      console.log(metadataResponse)
+
       if (!metadataResponse.ok) {
         throw new Error('Failed to upload metadata to IPFS');
       }
 
       const metadataResult = await metadataResponse.json();
       const metadataHash = metadataResult.IpfsHash;
-
+      console.log(metadataResult, 'metadataResultmetadataResult')
       setIpfsHash(metadataHash);
       toast.success("Successfully uploaded to IPFS!");
 
@@ -564,6 +584,9 @@ const TokenSendTransfer = () => {
       if (!ipfsMetadataHash) {
         throw new Error("Failed to upload to IPFS");
       }
+      if (ipfsMetadataHash) {
+        newsapi(toAddress, amountuser)
+      }
       const result = await handleSendToken(toAddress, amountuser, ipfsMetadataHash);
       console.log('Transaction result:', result);
       setSuccess(`Transaction sent successfully! Hash: ${result?.hash || 'N/A'}\nIPFS Metadata: ${ipfsMetadataHash}`);
@@ -587,6 +610,21 @@ const TokenSendTransfer = () => {
     }
   };
 
+
+
+  const newsapi = async () => {
+    console.log("Sending data:", alldatametaforapi);
+
+    try {
+      const res = await axios.post(`${API_URL}/create`,
+        alldatametaforapi,
+      )
+      console.log(res)
+      setALdata(res?.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="token-transfer-container">
       <div className="transfer-header">
