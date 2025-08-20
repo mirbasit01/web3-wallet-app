@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkweb3_wallet_app=self.webpackChunkweb3_wallet_app||[]).push([[2821],{2821:(e,l,n)=>{n.r(l),n.d(l,{chevronBottomSvg:()=>p});var a,o=n(7528);const p=(0,n(3088).JW)(a||(a=(0,o.A)(['<svg fill="none" viewBox="0 0 16 16">\n  <path\n    fill="currentColor"\n    fill-rule="evenodd"\n    d="M1.46 4.96a1 1 0 0 1 1.41 0L8 10.09l5.13-5.13a1 1 0 1 1 1.41 1.41l-5.83 5.84a1 1 0 0 1-1.42 0L1.46 6.37a1 1 0 0 1 0-1.41Z"\n    clip-rule="evenodd"\n  />\n</svg>'])))}}]);
+//# sourceMappingURL=2821.3977f7f8.chunk.js.map
