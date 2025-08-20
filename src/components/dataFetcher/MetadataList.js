@@ -42,7 +42,6 @@ function MetadataList() {
             </div>
           </div>
 
-          {/* Content */}
           {metadata.length === 0 ? (
             <div className="empty-state">
               <div className="empty-state-icon">
