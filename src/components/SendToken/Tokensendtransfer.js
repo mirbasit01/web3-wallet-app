@@ -240,7 +240,6 @@ const TokenSendTransfer = () => {
           }
         ]
       };
-      // jab create karte ho:
       setalldatametaforapi({
         name: tokenName,
         description: tokenDescription,
