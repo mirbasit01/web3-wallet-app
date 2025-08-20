@@ -553,31 +553,20 @@ const TokenSendTransfer = () => {
   };
 
   const handlePayment = async () => {
-    // Reset states
     setError("");
     setSuccess("");
-
-    // Validate all fields
     if (!validateAllFields()) {
       return;
     }
-
     try {
       setLoading(true);
-
-      // First upload to IPFS
       const ipfsMetadataHash = await uploadToIPFS();
       if (!ipfsMetadataHash) {
         throw new Error("Failed to upload to IPFS");
       }
-
-      // Then send the token with IPFS hash
       const result = await handleSendToken(toAddress, amountuser, ipfsMetadataHash);
       console.log('Transaction result:', result);
-
       setSuccess(`Transaction sent successfully! Hash: ${result?.hash || 'N/A'}\nIPFS Metadata: ${ipfsMetadataHash}`);
-
-      // Clear form after successful transaction
       setTimeout(() => {
         setToAddress("");
         setAmountuser("");

@@ -8,8 +8,8 @@ export const UserProvider = ({ children }) => {
 const [enableds, setenableds] = useState(false)
     const [enabledstwo, setenabledstwo] = useState(false)
 
-    console.log(enabledstwo, 'enabledsenableds')
-    console.log(enableds, 'enabledsenableds')
+    // console.log(enabledstwo, 'enabledsenableds')
+    // console.log(enableds, 'enabledsenableds')
 
 
     
