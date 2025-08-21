@@ -5,6 +5,7 @@ import './TokenComponents.css';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from 'utils/api/Enviroment';
+import { IPFSJWTTOKEN } from 'utils/api/Enviroment';
 
 const TokenSendTransfer = () => {
   // Original states
@@ -15,7 +16,6 @@ const TokenSendTransfer = () => {
   const [success, setSuccess] = useState("");
   const [addressError, setAddressError] = useState("");
   const [amountError, setAmountError] = useState("");
-
   // New states for IPFS metadata
   const [tokenName, setTokenName] = useState("");
   const [tokenDescription, setTokenDescription] = useState("");
@@ -24,20 +24,15 @@ const TokenSendTransfer = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [ipfsHash, setIpfsHash] = useState("");
   const [uploadingToIPFS, setUploadingToIPFS] = useState(false);
-
   // Validation errors for new fields
   const [nameError, setNameError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [imageError, setImageError] = useState("");
-
   const [ALdata, setALdata] = useState('')
-
   const [alldatametaforapi, setalldatametaforapi] = useState('')
-
   const { handleSendToken } = useTokensend();
-  const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJhNDJmMTJmMi0yYjM3LTQ5ZjUtOTg1Zi1jZGU4Y2NjYmEzYjkiLCJlbWFpbCI6Im1pcnQxMTQ3N0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiNTZlNTA1NzI1ZmE3YTE0MzA4N2IiLCJzY29wZWRLZXlTZWNyZXQiOiJjMmNkNDhlNDY4MTI4MDA3MDQ1MDBlYmM3NDFmY2Y2YTZmOWViYjdkYzVlMjdiMjQ5MzhhYmEwOGQ3ODg1MGU5IiwiZXhwIjoxNzg3MTQ0Nzk2fQ.h5gQ-MOznNCAo5tSI45oRnd4LYdF_BEYeyJVAUea-I0'
-  // Validate Ethereum address
+  const jwtToken = IPFSJWTTOKEN
   const isValidAddress = (address) => {
     return /^0x[a-fA-F0-9]{40}$/.test(address);
   };
@@ -47,27 +42,20 @@ const TokenSendTransfer = () => {
     return !isNaN(amount) && parseFloat(amount) > 0;
   };
 
-  // Handle image selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageError("");
 
     if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
+       if (!file.type.startsWith('image/')) {
         setImageError("Please select a valid image file");
         return;
       }
-
-      // Validate file size (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
         setImageError("Image size should be less than 10MB");
         return;
       }
-
       setSelectedImage(file);
-
-      // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -75,7 +63,6 @@ const TokenSendTransfer = () => {
       reader.readAsDataURL(file);
     }
   };
-  // Handle input changes with validation
   const handleAddressChange = (e) => {
     const value = e.target.value;
     setToAddress(value);
@@ -130,7 +117,6 @@ const TokenSendTransfer = () => {
     }
   };
 
-  // Validate all fields
   const validateAllFields = () => {
     let isValid = true;
 
@@ -185,6 +171,7 @@ const TokenSendTransfer = () => {
   // console.log('JWT Token:', jwtToken);
   // console.log('Token length:', jwtToken?.length);
   // Upload to IPFS (Pinata API example)
+
   const uploadToIPFS = async () => {
     if (!selectedImage || !tokenName || !tokenDescription || !tokenPrice) {
       toast.error("Please fill all fields before uploading to IPFS");
@@ -197,17 +184,14 @@ const TokenSendTransfer = () => {
       // First upload image to IPFS
       const imageFormData = new FormData();
       imageFormData.append('file', selectedImage);
-
       const pinataMetadata = JSON.stringify({
         name: `${tokenName}-image`,
       });
       imageFormData.append('pinataMetadata', pinataMetadata);
-
       const pinataOptions = JSON.stringify({
         cidVersion: 0,
       });
       imageFormData.append('pinataOptions', pinataOptions);
-
       const imageUploadResponse = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
         method: 'POST',
         headers: {
@@ -215,15 +199,11 @@ const TokenSendTransfer = () => {
         },
         body: imageFormData,
       });
-
       if (!imageUploadResponse.ok) {
         throw new Error('Failed to upload image to IPFS');
       }
-
       const imageResult = await imageUploadResponse.json();
       const imageIPFSHash = imageResult.IpfsHash;
-
-      // Create metadata object
       const metadata = {
         name: tokenName,
         description: tokenDescription,
@@ -240,6 +220,7 @@ const TokenSendTransfer = () => {
           }
         ]
       };
+
       setalldatametaforapi({
         name: tokenName,
         description: tokenDescription,
@@ -265,7 +246,6 @@ const TokenSendTransfer = () => {
           }
         }),
       });
-
       console.log(metadataResponse)
 
       if (!metadataResponse.ok) {
@@ -303,9 +283,7 @@ const TokenSendTransfer = () => {
       if (!ipfsMetadataHash) {
         throw new Error("Failed to upload to IPFS");
       }
-
       await newsapi()
-
       const result = await handleSendToken(toAddress, amountuser);
       console.log('Transaction result:', result);
       setSuccess(`Transaction sent successfully! Hash: ${result?.hash || 'N/A'}\nIPFS Metadata: ${ipfsMetadataHash}`);
@@ -333,7 +311,6 @@ const TokenSendTransfer = () => {
 
   const newsapi = async () => {
     console.log("Sending data:", alldatametaforapi);
-
     try {
       const res = await axios.post(`${API_URL}/create`,
         alldatametaforapi,
@@ -597,3 +574,399 @@ const TokenSendTransfer = () => {
 };
 
 export default TokenSendTransfer;
+
+
+// import React from 'react';
+// import useTokensend from 'hook/useTokensend';
+// import './TokenComponents.css';
+// import { IPFSJWTTOKEN, API_URL } from 'utils/api/Enviroment';
+
+// // Import custom hooks
+// import useFormValidation from 'customhooks/useFormValidation';
+// import useImageUpload from 'customhooks/useImageUpload';
+// import useIPFSUpload from 'customhooks/useIPFSUpload';
+// import useAPI from 'customhooks/useAPI';
+// import useTokenForm from 'customhooks/useTokenForm';
+
+// const TokenSendTransfer = () => {
+//   // Initialize custom hooks
+//   const { 
+//     formData, 
+//     loading, 
+//     error, 
+//     success, 
+//     updateField, 
+//     resetForm, 
+//     setLoadingState, 
+//     setErrorMessage, 
+//     setSuccessMessage 
+//   } = useTokenForm();
+
+//   const { 
+//     errors, 
+//     validateField, 
+//     validateAllFields, 
+//     clearError 
+//   } = useFormValidation();
+
+//   const { 
+//     selectedImage, 
+//     imagePreview, 
+//     imageError, 
+//     handleImageChange, 
+//     resetImage,
+//     setImageError 
+//   } = useImageUpload();
+
+//   const { 
+//     ipfsHash, 
+//     uploadingToIPFS, 
+//     metadataForAPI, 
+//     uploadToIPFS, 
+//     resetIPFSData ,
+//     alldatametaforapi
+
+//   } = useIPFSUpload(IPFSJWTTOKEN);
+
+//   const { 
+//     apiData, 
+//     apiLoading, 
+//     apiError, 
+//     sendToAPI, 
+//     resetAPIState 
+//   } = useAPI(API_URL);
+
+//   const { handleSendToken } = useTokensend();
+
+//   // Event handlers
+//   const handleFieldChange = (fieldName, value) => {
+//     updateField(fieldName, value);
+//     clearError(fieldName);
+    
+//     // Validate field on change
+//     if (value) {
+//       validateField(fieldName, value);
+//     }
+//   };
+
+//   const handleImageUpload = (e) => {
+//     const file = e.target.files[0];
+//     const success = handleImageChange(file, (fieldName, errorMsg) => {
+//       // This callback is called when there's an image error
+//       validateField('selectedImage', null);
+//     });
+    
+//     if (success) {
+//       clearError('selectedImage');
+//     }
+//   };
+
+//   const handlePayment = async () => {
+//     setErrorMessage("");
+//     setSuccessMessage("");
+    
+//     // Validate all fields
+//     const fieldsToValidate = {
+//       tokenName: formData.tokenName,
+//       tokenDescription: formData.tokenDescription,
+//       tokenPrice: formData.tokenPrice,
+//       selectedImage: selectedImage,
+//       toAddress: formData.toAddress,
+//       amountuser: formData.amountuser
+//     };
+
+//     if (!validateAllFields(fieldsToValidate)) {
+//       return;
+//     }
+
+//     try {
+//       setLoadingState(true);
+
+//       // Upload to IPFS
+//       const ipfsMetadataHash = await uploadToIPFS({
+//         tokenName: formData.tokenName,
+//         tokenDescription: formData.tokenDescription,
+//         tokenPrice: formData.tokenPrice
+//       }, selectedImage);
+
+//       if (!ipfsMetadataHash) {
+//         throw new Error("Failed to upload to IPFS");
+//       }
+
+
+      
+//       // Send to API
+//         await sendToAPI(API_URL ,    alldatametaforapi);
+    
+
+//       // Send token transaction
+//       const result = await handleSendToken(formData.toAddress, formData.amountuser);
+//       console.log('Transaction result:', result);
+
+//       setSuccessMessage(
+//         `Transaction sent successfully! Hash: ${result?.hash || 'N/A'}\nIPFS Metadata: ${ipfsMetadataHash}`
+//       );
+
+//       // Reset form after success
+//       setTimeout(() => {
+//         resetForm();
+//         resetImage();
+//         resetIPFSData();
+//         resetAPIState();
+//         setSuccessMessage("");
+//       }, 10000);
+
+//     } catch (error) {
+//       console.error('Transaction error:', error);
+//       setErrorMessage(`Transaction failed: ${error.message || 'Unknown error'}`);
+//     } finally {
+//       setLoadingState(false);
+//     }
+//   };
+
+//   return (
+//     <div className="token-transfer-container">
+//       <div className="transfer-header">
+//         <h2 className="transfer-title text-glow">
+//           Create & Send Token
+//         </h2>
+//         <p className="transfer-subtitle">
+//           Create a token with metadata and transfer to any Ethereum address
+//         </p>
+//       </div>
+
+//       <form className="transfer-form" onSubmit={(e) => e.preventDefault()}>
+//         {/* Token Metadata Section */}
+//         <div className="metadata-section" style={{
+//           marginBottom: '2rem',
+//           padding: '1.5rem',
+//           background: 'rgba(255, 255, 255, 0.05)',
+//           borderRadius: '12px',
+//           border: '1px solid rgba(255, 255, 255, 0.1)'
+//         }}>
+//           <h3 style={{ color: '#00d4ff', marginBottom: '1rem', fontSize: '1.2rem' }}>
+//             Token Information
+//           </h3>
+
+//           {/* Token Name */}
+//           <div className="input-group">
+//             <label className="input-label">Token Name *</label>
+//             <input
+//               type="text"
+//               placeholder="My Awesome Token"
+//               value={formData.tokenName}
+//               onChange={(e) => handleFieldChange('tokenName', e.target.value)}
+//               className={`input-field ${errors.tokenName ? 'error' : ''}`}
+//               disabled={loading}
+//             />
+//             {errors.tokenName && <div className="error-message">{errors.tokenName}</div>}
+//           </div>
+
+//           {/* Token Description */}
+//           <div className="input-group">
+//             <label className="input-label">Description *</label>
+//             <textarea
+//               placeholder="Describe your token..."
+//               value={formData.tokenDescription}
+//               onChange={(e) => handleFieldChange('tokenDescription', e.target.value)}
+//               className={`input-field ${errors.tokenDescription ? 'error' : ''}`}
+//               disabled={loading}
+//               rows="3"
+//               style={{ resize: 'vertical', minHeight: '80px' }}
+//             />
+//             {errors.tokenDescription && <div className="error-message">{errors.tokenDescription}</div>}
+//           </div>
+
+//           {/* Token Price */}
+//           <div className="input-group">
+//             <label className="input-label">Price (ETH) *</label>
+//             <input
+//               type="number"
+//               placeholder="0.001"
+//               value={formData.tokenPrice}
+//               onChange={(e) => handleFieldChange('tokenPrice', e.target.value)}
+//               className={`input-field ${errors.tokenPrice ? 'error' : ''}`}
+//               step="0.000001"
+//               min="0"
+//               disabled={loading}
+//             />
+//             {errors.tokenPrice && <div className="error-message">{errors.tokenPrice}</div>}
+//           </div>
+
+//           {/* Image Upload */}
+//           <div className="">
+//             <label className="input-label">Token Image *</label>
+//             <div className="image-upload-container" style={{
+//               border: `2px dashed ${errors.selectedImage || imageError ? '#ff6b6b' : 'rgba(255, 255, 255, 0.3)'}`,
+//               borderRadius: '8px',
+//               padding: '1rem',
+//               textAlign: 'center',
+//               background: 'rgba(255, 255, 255, 0.02)'
+//             }}>
+//               <input
+//                 type="file"
+//                 accept="image/*"
+//                 onChange={handleImageUpload}
+//                 disabled={loading}
+//                 style={{ display: 'none' }}
+//                 id="image-upload"
+//               />
+//               <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
+//                 {imagePreview ? (
+//                   <div>
+//                     <img
+//                       src={imagePreview}
+//                       alt="Preview"
+//                       style={{
+//                         maxWidth: '200px',
+//                         maxHeight: '200px',
+//                         borderRadius: '8px',
+//                         marginBottom: '0.5rem'
+//                       }}
+//                     />
+//                     <p style={{ color: '#8892b0', fontSize: '0.9rem' }}>
+//                       Click to change image
+//                     </p>
+//                   </div>
+//                 ) : (
+//                   <div>
+//                     <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📁</div>
+//                     <p style={{ color: '#8892b0' }}>
+//                       Click to upload image (max 10MB)
+//                     </p>
+//                   </div>
+//                 )}
+//               </label>
+//             </div>
+//             {(errors.selectedImage || imageError) && (
+//               <div className="error-message">{errors.selectedImage || imageError}</div>
+//             )}
+//           </div>
+
+//           {/* IPFS Status */}
+//           {ipfsHash && (
+//             <div style={{
+//               padding: '1rem',
+//               background: 'rgba(0, 212, 255, 0.1)',
+//               borderRadius: '8px',
+//               marginTop: '1rem'
+//             }}>
+//               <p style={{ color: '#00d4ff', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+//                 ✅ Uploaded to IPFS
+//               </p>
+//               <p style={{ color: '#8892b0', fontSize: '0.85rem', wordBreak: 'break-all' }}>
+//                 Hash: {ipfsHash}
+//               </p>
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Transfer Section */}
+//         <div className="transfer-section">
+//           <h3 style={{ color: '#00d4ff', marginBottom: '1rem', fontSize: '1.2rem' }}>
+//             Transfer Details
+//           </h3>
+
+//           {/* Recipient Address Input */}
+//           <div className="input-group">
+//             <label className="input-label">Recipient Address *</label>
+//             <input
+//               type="text"
+//               placeholder="0x742d35Cc6634C0532925a3b8D11A234C7a3D6C4d"
+//               value={formData.toAddress}
+//               onChange={(e) => handleFieldChange('toAddress', e.target.value)}
+//               className={`input-field address-input ${errors.toAddress ? 'error' : ''}`}
+//               disabled={loading}
+//             />
+//             {errors.toAddress && <div className="error-message">{errors.toAddress}</div>}
+//           </div>
+
+//           {/* Amount Input */}
+//           <div className="">
+//             <label className="input-label">Amount *</label>
+//             <div className="amount-input-container">
+//               <input
+//                 type="number"
+//                 placeholder="0.00"
+//                 value={formData.amountuser}
+//                 onChange={(e) => handleFieldChange('amountuser', e.target.value)}
+//                 className={`input-field ${errors.amountuser ? 'error' : ''}`}
+//                 step="0.000001"
+//                 min="0"
+//                 disabled={loading}
+//               />
+//               <div className="currency-badge">TOKENS</div>
+//             </div>
+//             {errors.amountuser && <div className="error-message">{errors.amountuser}</div>}
+//           </div>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button
+//           type="button"
+//           className="transfer-button"
+//           onClick={handlePayment}
+//           disabled={loading || uploadingToIPFS || apiLoading}
+//           style={{ marginTop: '2rem' }}
+//         >
+//           {loading ? (
+//             <>
+//               <span className="spinner"></span>
+//               Processing Transaction...
+//             </>
+//           ) : uploadingToIPFS ? (
+//             <>
+//               <span className="spinner"></span>
+//               Uploading to IPFS...
+//             </>
+//           ) : apiLoading ? (
+//             <>
+//               <span className="spinner"></span>
+//               Saving to API...
+//             </>
+//           ) : (
+//             <>
+//               Create & Send Token
+//             </>
+//           )}
+//         </button>
+
+//         {/* Error Messages */}
+//         {(error || apiError) && (
+//           <div className="error-state" style={{ marginTop: '1rem', padding: '1rem' }}>
+//             {error || apiError}
+//           </div>
+//         )}
+
+//         {/* Success Message */}
+//         {success && (
+//           <div className="success-message" style={{ whiteSpace: 'pre-line' }}>
+//             {success}
+//           </div>
+//         )}
+
+//         {/* Transaction Info */}
+//         <div style={{
+//           marginTop: '1.5rem',
+//           padding: '1rem',
+//           background: 'rgba(255, 255, 255, 0.03)',
+//           borderRadius: '8px',
+//           fontSize: '0.85rem',
+//           color: '#8892b0',
+//           lineHeight: '1.5'
+//         }}>
+//           <div style={{ marginBottom: '0.5rem' }}>
+//             <strong style={{ color: '#00d4ff' }}>💡 Important Notes:</strong>
+//           </div>
+//           <div>• All fields marked with * are required</div>
+//           <div>• Image will be uploaded to IPFS (decentralized storage)</div>
+//           <div>• Double-check the recipient address before sending</div>
+//           <div>• Ensure you have enough ETH for gas fees</div>
+//           <div>• Transactions are irreversible once confirmed</div>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default TokenSendTransfer;
