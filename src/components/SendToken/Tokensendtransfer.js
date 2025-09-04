@@ -203,14 +203,6 @@ const TokenSendTransfer = () => {
         throw new Error('Failed to upload image to IPFS');
       }
 
-
-
-
-
-
-
-
-      
       const imageResult = await imageUploadResponse.json();
       const imageIPFSHash = imageResult.IpfsHash;
       const metadata = {
